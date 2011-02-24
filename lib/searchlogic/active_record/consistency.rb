@@ -17,7 +17,7 @@ module Searchlogic
       # the merge_joins method to delete duplicates.
       def merge_joins_with_singularity(*args)
         joins = merge_joins_without_singularity(*args)
-        joins.collect { |j| j.is_a?(String) ? j.split("  ") : j }.flatten.uniq
+        joins.collect { |j| j.is_a?(String) ? j.split(/  [^\(]/) : j }.flatten.uniq
       end
       
       # This method ensures that the order of the conditions in the joins are the same.

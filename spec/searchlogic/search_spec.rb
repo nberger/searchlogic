@@ -492,6 +492,18 @@ describe Searchlogic::Search do
       loaded_search.current_scope.should == {:conditions => "1=1"}
       loaded_search.name_like.should == "Ben"
       loaded_search.created_at_after.should == time
+  end
+  
+  context "sti" do
+    it "should allow search twice through the same sti association" do
+      m = Manager.create(:full_name => "John Doe")
+      company = Company.create
+      company.managers << m
+      search = Company.search(:managers_full_name_like => "John", :managers_full_name_like => "Mich")
+      search.all.count.should == 1
+      search.empty?.should == false
+      search.count.should == 1
+      search.first.should == company
     end
   end
 end

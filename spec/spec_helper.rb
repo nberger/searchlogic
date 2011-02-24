@@ -74,6 +74,12 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer :order_id
     t.float :price
   end
+
+  create_table :people do |t|
+    t.string :full_name
+    t.string :type
+    t.integer :company_id
+  end
 end
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
@@ -89,6 +95,9 @@ Spec::Runner.configure do |config|
     class ::Company < ActiveRecord::Base
       has_many :orders, :through => :users
       has_many :users, :dependent => :destroy
+      has_many :people
+      has_many :managers
+      has_many :employees
     end
     
     class ::UserGroup < ActiveRecord::Base
@@ -117,10 +126,18 @@ Spec::Runner.configure do |config|
       belongs_to :order
     end
     
+    class ::Person < ActiveRecord::Base
+    end
+    class ::Manager < ::Person
+    end
+    class ::Employee < ::Person
+    end
+
     ::Company.destroy_all
     ::User.destroy_all
     ::Order.destroy_all
     ::LineItem.destroy_all
+    ::Person.destroy_all
   end
   
   config.after(:each) do
@@ -128,5 +145,8 @@ Spec::Runner.configure do |config|
     Object.send(:remove_const, :User)
     Object.send(:remove_const, :Order)
     Object.send(:remove_const, :LineItem)
+    Object.send(:remove_const, :Person)
+    Object.send(:remove_const, :Manager)
+    Object.send(:remove_const, :Employee)
   end
 end
