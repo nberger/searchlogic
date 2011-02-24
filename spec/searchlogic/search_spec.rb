@@ -500,7 +500,7 @@ describe Searchlogic::Search do
       m = Manager.create(:full_name => "John Doe")
       company = Company.create
       company.managers << m
-      search = Company.search(:managers_full_name_like => "John", :managers_full_name_like => "Mich")
+      search = Company.search(:managers_full_name_like => "John", :managers_full_name_like => "Doe")
       search.all.count.should == 1
       search.empty?.should == false
       search.count.should == 1
