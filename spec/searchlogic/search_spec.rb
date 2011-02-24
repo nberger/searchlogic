@@ -492,6 +492,7 @@ describe Searchlogic::Search do
       loaded_search.current_scope.should == {:conditions => "1=1"}
       loaded_search.name_like.should == "Ben"
       loaded_search.created_at_after.should == time
+    end
   end
   
   context "sti" do
